@@ -86,55 +86,25 @@ A really helpful resource for doing this project and creating smooth trajectorie
     cd uWebSockets
     git checkout e94b6e1
     ```
+### Code Documentation
+Parses the json from the simulation via websocket and through json library. 
+Gets the sensor fusion data from the json string.
 
-## Editor Settings
+## Estimating the neighbors
+* Tries to get the sense of the environment
+* check if the car in front of the main car is slowing down
+* Makes sure the closest cars around us are taking any lane changes that might affect the main cars trajectory.
+* Estimates these things by calculating the lane of the surrounding cars from the previous trajectories of these cars. 
+* we create a 30 meter circle around us to be safe, if any other car comes inside this circle, it is considered dangerous.
 
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
+## Reaction to the estimation
+* On an occurance of a dangerous action/movement from the neighboring cars, how the car should react has been calculated in this segment.
+* Depends on how the situation, we check the neighboring lanes are free to do a lane change. Or increase/decrease the speed of the car.
+* calculate the velocity to hit ahead and velocity to hit left/right and based on those limits make the lane shifts
 
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
+## Trajectory
+* from the previous step, if the lane is open and faster prepare for the lane change
+* create a list of widely spaced x,y points evenly spaced at 30m and interpolate them using spline.
+* calculated on car coordinates
 
-## Code Style
-
-Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
-
-## Project Instructions and Rubric
-
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
-
-
-## Call for IDE Profiles Pull Requests
-
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to ensure
-that students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
